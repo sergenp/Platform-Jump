@@ -28,6 +28,11 @@ public class CubeJump : MonoBehaviour
     public Material defaultMaterial;
     public Material ChargingJumpMat;
 
+
+    public delegate void JumpDelegate();
+    public JumpDelegate jumpCharging;
+    public JumpDelegate jumped;
+
     private Animator _animator;
     private Rigidbody _rb;
 
@@ -59,28 +64,27 @@ public class CubeJump : MonoBehaviour
             jumpForce = Mathf.Clamp(jumpForce, minJumpSpeed, maxJumpSpeed);
             _animator.SetFloat("Jump Force", jumpForce);
             _animator.speed = 1f + (jumpForce / 70f);
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z), Time.deltaTime * 2);
             cubeRenderer.material.Lerp(cubeRenderer.material, ChargingJumpMat, Time.deltaTime * _animator.speed);
-            FindObjectOfType<FollowPlayer>().ShakeCam();
+            jumpCharging?.Invoke();
         }
+
         if (Input.GetMouseButtonUp(0) && (canJump || jumpCount > 0))
         {
             jumpTriggered = true;
-            FindObjectOfType<FollowPlayer>().StopShaking();
+            jumped?.Invoke();
         }
 
         if (canJump)
             jumpCount = maxInAirJumpCount;
         else
             cubeRenderer.material.Lerp(cubeRenderer.material, defaultMaterial, Time.deltaTime * 3);
-
         if (jumpCount >= 1)
             JumpTarget.SetActive(true);
         else
             JumpTarget.SetActive(false);
         
 
-        GraphicsCube.transform.localEulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z);
+        GraphicsCube.transform.localEulerAngles = Vector3.Lerp(GraphicsCube.transform.localEulerAngles, new Vector3(0f, 0f, transform.eulerAngles.z), 3f);
     }
 
     void FixedUpdate()
@@ -94,9 +98,9 @@ public class CubeJump : MonoBehaviour
     }
     void Jump()
     {
-        float xDir = JumpTarget.transform.position.x - transform.position.x;
-        _rb.velocity = new Vector3(xDir * jumpForce, jumpForce, 0f);
-        _rb.angularVelocity = new Vector3(0f, 0f, Mathf.Clamp(-xDir * jumpForce, -2f, 2f));
+        Vector3 jumpDir = (JumpTarget.transform.position - transform.position).normalized * jumpForce;
+        _rb.velocity = new Vector3(jumpDir.x, jumpForce, 0f);
+        _rb.angularVelocity = new Vector3(0f, 0f, Mathf.Clamp(-jumpDir.x, -2f, 2f));
         jumpForce = minJumpSpeed;
         _animator.SetFloat("Jump Force", jumpForce);
         _animator.speed = 1f;

@@ -10,7 +10,7 @@ public class ProceduralLevelGenerator : MonoBehaviour
     [Serializable]
     public class SpawnObject
     {
-        public Quaternion[] rotations;
+        public Vector3[] rotations;
         public GameObject prefab;
     }
 
@@ -58,7 +58,7 @@ public class ProceduralLevelGenerator : MonoBehaviour
             if (objToSpawn.rotations.Length > 0)
             {
                 previousObj = Instantiate(objToSpawn.prefab, new Vector3(xPos, YDistance, startPos.z),
-                objToSpawn.rotations[UnityEngine.Random.Range(0, objToSpawn.rotations.Length)]);
+                Quaternion.Euler(objToSpawn.rotations[UnityEngine.Random.Range(0, objToSpawn.rotations.Length)]));
             }
             else
             {

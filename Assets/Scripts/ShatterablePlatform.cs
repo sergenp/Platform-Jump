@@ -14,7 +14,7 @@ public class ShatterablePlatform : MonoBehaviour
             Vector3 vel = other.gameObject.GetComponent<Rigidbody>().velocity;
             foreach(var rb in shatteredObj.GetComponentsInChildren<Rigidbody>())
             {
-                rb.AddExplosionForce(vel.y * 1.5f, other.gameObject.transform.position, 10f, vel.y *0.8f * Mathf.Sign(vel.y), ForceMode.Impulse);
+                rb.AddExplosionForce(vel.y * 1.5f, other.gameObject.transform.position, 10f, vel.y * 0.8f * Mathf.Sign(vel.y), ForceMode.Impulse);
             }
             Destroy(shatteredObj, 10f);
             Destroy(gameObject);
