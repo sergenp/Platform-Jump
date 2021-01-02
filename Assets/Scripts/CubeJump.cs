@@ -29,6 +29,10 @@ public class CubeJump : MonoBehaviour
     public Material ChargingJumpMat;
 
 
+    [Header("Particle Systems")]
+    public ParticleSystem dustParticle;
+
+
     public delegate void JumpDelegate();
     public JumpDelegate jumpCharging;
     public JumpDelegate jumped;
@@ -71,6 +75,7 @@ public class CubeJump : MonoBehaviour
         if (Input.GetMouseButtonUp(0) && (canJump || jumpCount > 0))
         {
             jumpTriggered = true;
+            CreateDust();
             jumped?.Invoke();
         }
 
@@ -104,5 +109,10 @@ public class CubeJump : MonoBehaviour
         jumpForce = minJumpSpeed;
         _animator.SetFloat("Jump Force", jumpForce);
         _animator.speed = 1f;
+    }
+
+    void CreateDust()
+    {
+        dustParticle.Play();
     }
 }

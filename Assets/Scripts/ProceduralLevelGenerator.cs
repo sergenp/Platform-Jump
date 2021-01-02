@@ -8,7 +8,7 @@ public class ProceduralLevelGenerator : MonoBehaviour
 {
 
     [Serializable]
-    public class SpawnObject
+    public class SpawnPlatform
     {
         public Vector3[] rotations;
         public GameObject prefab;
@@ -17,7 +17,9 @@ public class ProceduralLevelGenerator : MonoBehaviour
     public Vector3 startPos;
     public GameObject startObject;
 
-    public SpawnObject[] prefabsToSpawn;
+    public GameObject finishObject;
+
+    public SpawnPlatform[] platformsToSpawn;
 
     public float YDistanceBetweenObjects;
 
@@ -31,7 +33,7 @@ public class ProceduralLevelGenerator : MonoBehaviour
     void Start()
     {
         Instantiate(startObject, startPos, Quaternion.identity);
-        YDistance += startPos.y;
+        YDistance += startPos.y + YDistanceBetweenObjects;
         rightXLimit = Camera.main.ScreenToWorldPoint(new Vector3(0f, 10, Camera.main.transform.position.z)).x;
         leftXLimit = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 10, Camera.main.transform.position.z)).x;
         GenerateLevel();
@@ -42,9 +44,9 @@ public class ProceduralLevelGenerator : MonoBehaviour
         GameObject previousObj = startObject;
         for (int i = 0; i < SpawnAmount; i++)
         {
-            SpawnObject objToSpawn = prefabsToSpawn[UnityEngine.Random.Range(0, prefabsToSpawn.Length)];
+            SpawnPlatform objToSpawn = platformsToSpawn[UnityEngine.Random.Range(0, platformsToSpawn.Length)];
             float xPos = UnityEngine.Random.Range(leftXLimit / 2, rightXLimit / 2);
-            float maxYPosInChildren = getMaxPosInChildren(previousObj);
+            float maxYPosInChildren = getMaxPosYInChildren(previousObj);
             if (maxYPosInChildren != float.MinValue)
             {
                 YDistance = YDistanceBetweenObjects + maxYPosInChildren;
@@ -64,8 +66,10 @@ public class ProceduralLevelGenerator : MonoBehaviour
             {
                 previousObj = Instantiate(objToSpawn.prefab, new Vector3(xPos, YDistance, startPos.z), Quaternion.identity);
             }
-            
         }
+        // add the last finishing platform after generating the level
+        Instantiate(finishObject, new Vector3(0f, previousObj.transform.position.y + YDistanceBetweenObjects*2, startPos.z), Quaternion.identity);
+    
     }
 
 
@@ -74,17 +78,14 @@ public class ProceduralLevelGenerator : MonoBehaviour
     /// </summary>
     /// <param name="gmObj">Unity GameObject</param>
     /// <returns>Maximum Y Position of the object's children, otherwise return float.MinValue</returns>
-    public float getMaxPosInChildren(GameObject gmObj) 
+    public float getMaxPosYInChildren(GameObject gmObj) 
     {
         float maxYPosInChildren = float.MinValue;
         foreach (var tr in gmObj.GetComponentsInChildren<Transform>())
         {
-            if (tr.gameObject != gmObj)
+            if (tr.gameObject != gmObj && maxYPosInChildren < tr.position.y)
             {
-                if (maxYPosInChildren < tr.position.y)
-                {
-                    maxYPosInChildren = tr.position.y;
-                }
+                maxYPosInChildren = tr.position.y;
             }
         }
         return maxYPosInChildren;

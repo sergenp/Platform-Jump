@@ -106,5 +106,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23e7faa24433ce5458de263a2e571a56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coinAmount: 3
+  coinValue: 10
   Shattered: {fileID: 4443697022010473815, guid: 9a62387b86966994391784a6c7c098aa,
+    type: 3}
+  floatingTextPrefab: {fileID: 8113778340688999327, guid: 089592727f40ce9409d843295dbe2584,
     type: 3}
