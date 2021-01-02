@@ -32,7 +32,6 @@ public class CubeJump : MonoBehaviour
     [Header("Particle Systems")]
     public ParticleSystem dustParticle;
 
-
     public delegate void JumpDelegate();
     public JumpDelegate jumpCharging;
     public JumpDelegate jumped;
@@ -68,7 +67,7 @@ public class CubeJump : MonoBehaviour
             jumpForce = Mathf.Clamp(jumpForce, minJumpSpeed, maxJumpSpeed);
             _animator.SetFloat("Jump Force", jumpForce);
             _animator.speed = 1f + (jumpForce / 70f);
-            cubeRenderer.material.Lerp(cubeRenderer.material, ChargingJumpMat, Time.deltaTime * _animator.speed);
+            cubeRenderer.material.Lerp(cubeRenderer.material, ChargingJumpMat, _animator.speed/100f);
             jumpCharging?.Invoke();
         }
 
@@ -76,20 +75,26 @@ public class CubeJump : MonoBehaviour
         {
             jumpTriggered = true;
             CreateDust();
+            AudioManager.instance.PlayAudioOneShot("Player Jump");
             jumped?.Invoke();
         }
 
         if (canJump)
-            jumpCount = maxInAirJumpCount;
+            ResetJumpCount();
         else
-            cubeRenderer.material.Lerp(cubeRenderer.material, defaultMaterial, Time.deltaTime * 3);
+            cubeRenderer.material.Lerp(cubeRenderer.material, defaultMaterial, .02f);
         if (jumpCount >= 1)
             JumpTarget.SetActive(true);
         else
             JumpTarget.SetActive(false);
-        
 
-        GraphicsCube.transform.localEulerAngles = Vector3.Lerp(GraphicsCube.transform.localEulerAngles, new Vector3(0f, 0f, transform.eulerAngles.z), 3f);
+        GraphicsCube.transform.localEulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z);
+    }
+
+
+    public void ResetJumpCount()
+    {
+        jumpCount = maxInAirJumpCount;
     }
 
     void FixedUpdate()

@@ -5,12 +5,25 @@ using UnityEngine;
 public class Mine : MonoBehaviour
 {
     public float explosionForce;
-    private void OnCollisionEnter(Collision collision)
+    public ParticleSystem explosionParticles;
+
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, this.transform.position, explosionForce, explosionForce, ForceMode.Impulse);
-            Destroy(gameObject);
-        }        
+            other.gameObject.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, other.transform.position, explosionForce, explosionForce, ForceMode.Impulse);
+            StartCoroutine(BlowUp());
+        }
+    }
+ 
+    IEnumerator BlowUp()
+    {
+        explosionParticles.Play();
+        AudioManager.instance.PlayAudioOneShot("Mine");
+        gameObject.GetComponent<Renderer>().enabled = false;
+        gameObject.GetComponent<BoxCollider>().enabled = false;
+        yield return new WaitForSeconds(2f);
+        Destroy(gameObject);
     }
 }
