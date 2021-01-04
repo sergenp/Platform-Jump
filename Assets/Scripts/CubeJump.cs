@@ -120,4 +120,13 @@ public class CubeJump : MonoBehaviour
     {
         dustParticle.Play();
     }
+
+    public void ApplyUpgrades(PlayerUpgrades upgrades)
+    {
+        JumpTarget.GetComponent<RotateAroundPlayer>().rotateSpeed = upgrades.arrowRotationSpeed;
+        minJumpSpeed = upgrades.minJumpSpeed;
+        maxJumpSpeed = upgrades.fullyChargedJumpSpeed;
+        jumpForceGainMultiplier = upgrades.jumpForceGainMultiplier;
+        maxInAirJumpCount = upgrades.jumpsInAir;
+    }
 }

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
-public class ProceduralLevelGenerator : MonoBehaviour
+public class RandomLevelGenerator : MonoBehaviour
 {
 
     [Serializable]
@@ -23,24 +20,20 @@ public class ProceduralLevelGenerator : MonoBehaviour
 
     public float YDistanceBetweenObjects;
 
-    public int SpawnAmount = 15;
+    
+    public float SpawnAmount;
 
     float YDistance;
-
     float rightXLimit;
     float leftXLimit;
 
-    void Start()
+    public void GenerateLevel()
     {
         Instantiate(startObject, startPos, Quaternion.identity);
         YDistance += startPos.y + YDistanceBetweenObjects;
         rightXLimit = Camera.main.ScreenToWorldPoint(new Vector3(0f, 10, Camera.main.transform.position.z)).x;
         leftXLimit = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 10, Camera.main.transform.position.z)).x;
-        GenerateLevel();
-    }
 
-    private void GenerateLevel()
-    {
         GameObject previousObj = startObject;
         for (int i = 0; i < SpawnAmount; i++)
         {
@@ -68,8 +61,7 @@ public class ProceduralLevelGenerator : MonoBehaviour
             }
         }
         // add the last finishing platform after generating the level
-        Instantiate(finishObject, new Vector3(0f, previousObj.transform.position.y + YDistanceBetweenObjects*2, startPos.z), Quaternion.identity);
-    
+        Instantiate(finishObject, new Vector3(0f, previousObj.transform.position.y + YDistanceBetweenObjects+10f, startPos.z), Quaternion.identity);
     }
 
 

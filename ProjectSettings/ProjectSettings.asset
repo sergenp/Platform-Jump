@@ -765,10 +765,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: cdde876d-d640-4074-90d9-84340dd4c842
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: CubeJump
+  organizationId: sergen12343
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

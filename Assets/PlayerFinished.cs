@@ -8,7 +8,7 @@ public class PlayerFinished : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            GameManagerScript.instance.PlayerFinishedLevel();
+            GameManager.instance.PlayerFinishedLevel();
         }
     }
 }

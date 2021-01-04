@@ -16,6 +16,6 @@ public class Coin : Pickable
 
     public override void Buff()
     {
-        GameManagerScript.instance.AddCoinToPlayer(value);
+        GameManager.instance.AddCoinToPlayer(value);
     }
 }

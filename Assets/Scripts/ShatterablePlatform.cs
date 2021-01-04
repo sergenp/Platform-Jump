@@ -29,7 +29,7 @@ public class ShatterablePlatform : MonoBehaviour
                 rb.AddExplosionForce(vel.y * 1.25f, other.gameObject.transform.position, 10f, vel.y * 0.7f * Mathf.Sign(vel.y), ForceMode.Impulse);
             }
             Destroy(shatteredObj, 10f);
-            GameManagerScript.instance.AddCoinToPlayer(coinValue, coinAmount);
+            GameManager.instance.AddCoinToPlayer(coinValue, coinAmount);
             Destroy(gameObject);
         }
     }
