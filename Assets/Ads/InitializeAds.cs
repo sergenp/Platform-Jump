@@ -51,7 +51,7 @@ public class InitializeAds : MonoBehaviour, IUnityAdsListener
         }
         else if (showResult == ShowResult.Skipped)
         {
-            print("Skipped");
+            //print("Skipped");
         }
         else if (showResult == ShowResult.Failed)
         {

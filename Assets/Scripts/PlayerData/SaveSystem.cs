@@ -1,23 +1,24 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-public static class SaveSystem
+public static class SaveSystem<T>
 {
-    public static void SavePlayer(PlayerData player)
+    public static void SaveData(T data, string saveName)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Path.Combine(Application.persistentDataPath, "player.data");
+        string path = Path.Combine(Application.persistentDataPath, $"{saveName}.data");
         using (var stream = new FileStream(path, FileMode.Create))
         {
-            formatter.Serialize(stream, player);
+            formatter.Serialize(stream, data);
         }
     }
 
-    public static PlayerData LoadPlayer()
+    public static T LoadData(string saveName)
     {
-        string path = Application.persistentDataPath + Path.DirectorySeparatorChar + "player.data";        
+        string path = Path.Combine(Application.persistentDataPath, $"{saveName}.data");
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -25,20 +26,20 @@ public static class SaveSystem
             {
                 try
                 {
-                    PlayerData data = formatter.Deserialize(stream) as PlayerData;
+                    T data = (T) formatter.Deserialize(stream);
                     return data;
                 }
                 // serialization failed (probably user tampered with the file?)
                 catch (SerializationException)
                 {
-                    return null;
+                    return default(T);
                 }
             }
         }
         else
         {
             Debug.LogError("Save file not found in " + path);
-            return null;
+            return default(T);
         }
     }
 }

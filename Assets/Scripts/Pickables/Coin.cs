@@ -6,14 +6,6 @@ public class Coin : Pickable
 {
     public int value;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            GotoPlayer();
-        }
-    }
-
     public override void Buff()
     {
         GameManager.instance.AddCoinToPlayer(value);

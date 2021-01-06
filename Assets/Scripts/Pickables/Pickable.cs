@@ -1,22 +1,31 @@
 ﻿using UnityEngine;
 
-public class Pickable : MonoBehaviour, IBuff
+public abstract class Pickable : MonoBehaviour, IBuff
 {
 
-    private bool goToPlayer;
-    protected void GotoPlayer()
+    protected Transform playerTransform;
+
+    void Start()
     {
-        goToPlayer = true;
+        playerTransform = GameManager.instance.GetPlayerTransform();
     }
 
-    public virtual void Buff(){}
+    private bool goToPlayer;
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            goToPlayer = true;
+        }
+    }
+
+    public abstract void Buff();
 
     private void Update()
     {
         if (goToPlayer)
         {
-            Transform playerTransform = GameManager.instance.GetPlayerTransform();
-            transform.position = Vector3.MoveTowards(transform.position, playerTransform.position, 20f * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, playerTransform.position, 100f * Time.deltaTime);
             if (Vector3.Distance(transform.position, playerTransform.position) <= 0.5f)
             {
                 Buff();
