@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class WatchAdButton : MonoBehaviour
@@ -9,7 +7,6 @@ public class WatchAdButton : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(adReadyChecker());
         if (watchAdButton == null)
         {
             watchAdButton = GetComponent<Button>();
@@ -18,21 +15,8 @@ public class WatchAdButton : MonoBehaviour
         watchAdButton.onClick.AddListener(() => AdManager.instance.ShowRewardedVideo());
     }
 
-    
-    IEnumerator adReadyChecker()
+    private void Update()
     {
-        while (true)
-        {
-            if (AdManager.instance.isRewardedVideoReady())
-            {
-                watchAdButton.interactable = true;
-            }
-            else
-            {
-                watchAdButton.interactable = false;
-            }
-            yield return new WaitForSeconds(5f);
-        }
+        watchAdButton.interactable = AdManager.instance.isRewardedVideoReady();
     }
-
 }

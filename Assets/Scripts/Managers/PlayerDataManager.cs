@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerDataManager : MonoBehaviour
 {
+    #region Singleton
     public static PlayerDataManager instance;
 
     PlayerData data;
@@ -27,6 +28,7 @@ public class PlayerDataManager : MonoBehaviour
             SaveSystem<PlayerData>.SaveData(data, "player");
         }
     }
+    #endregion
 
     public int GetCurrentGold()
     {

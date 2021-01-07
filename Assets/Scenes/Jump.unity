@@ -954,6 +954,9 @@ MonoBehaviour:
     prefab: {fileID: 2639112605667896561, guid: 3bbda67fdd2a35742bd5f834d8308973,
       type: 3}
   - rotations: []
+    prefab: {fileID: 2639112605667896561, guid: 3bbda67fdd2a35742bd5f834d8308973,
+      type: 3}
+  - rotations: []
     prefab: {fileID: 2639112605667896561, guid: 15a551d7a87e67d44bb3ee4197a543a3,
       type: 3}
   - rotations: []

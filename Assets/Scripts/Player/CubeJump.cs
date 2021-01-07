@@ -128,9 +128,9 @@ public class CubeJump : MonoBehaviour
             {
                 rb.AddExplosionForce(50f, transform.position, 20f, -rb.velocity.y);
             }
-            KillCube();
             AudioManager.instance.PlayAudioOneShot("Mine");
             playerDied?.Invoke();
+            KillCube();
         }
     }
 
@@ -141,7 +141,6 @@ public class CubeJump : MonoBehaviour
         Destroy(JumpTarget);
         Destroy(this);
     }
-
 
     public void ResetJumpCount()
     {

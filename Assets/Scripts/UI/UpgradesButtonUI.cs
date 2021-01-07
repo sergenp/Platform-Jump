@@ -37,22 +37,29 @@ public class UpgradesButtonUI : MonoBehaviour
             upgradedLevelText.text = "Maxed";
             thisButton.gameObject.SetActive(false);
         }
-        currentCash.text = $"Current $:{PlayerDataManager.instance.GetCurrentGold()}";
+        currentCash.text = $"Current $: {PlayerDataManager.instance.GetCurrentGold()}";
     }
 
 
     public void OpenUpgradeExplainer()
     {
         Header.text = upgradeDisplayName.ToString();
+        int playerGold = PlayerDataManager.instance.GetCurrentGold();
         float upgradeCost = data.initialUpgradeCost + (data.perUpgradeCostIncrease * data.upgradedAmount);
         float currentUpgradedValue = data.initialUpgradeValue + (data.upgradedAmount * data.increasePerUpgrade);
         float nextUpgradedValue = data.initialUpgradeValue + ((data.upgradedAmount+1) * data.increasePerUpgrade);
-        ExplainUpgrade.text = $"{data.upgradeExplanation}\n\nCurrent: {currentUpgradedValue}\nNext:{nextUpgradedValue}\nThis Upgrade Costs: {upgradeCost}$\n" +
-            $"You have:{SaveSystem<PlayerData>.LoadData("player").goldAmount}$";
+        ExplainUpgrade.text = $"{data.upgradeExplanation}\n\nCurrent: {currentUpgradedValue}</b>\nNext: {nextUpgradedValue}</b>\nThis Upgrade Costs: {upgradeCost} $\n" +
+            $"You have: {playerGold} $";
         confirmButton.onClick.RemoveAllListeners();
         confirmButton.onClick.AddListener(() => UpgradeConfirmed());
         UpgradeExplainerPanel.SetActive(true);
     }
+
+    private void Update()
+    {
+        currentCash.text = $"Current $: {PlayerDataManager.instance.GetCurrentGold()}";
+    }
+
 
     public void UpgradeConfirmed()
     {
@@ -70,7 +77,9 @@ public class UpgradesButtonUI : MonoBehaviour
                 upgradedLevelText.text = "Max";
                 thisButton.gameObject.SetActive(false);
             }
-            UpgradesManager.instance.UpgradeStat(data);
+            UpgradesManager.instance.SaveStats();
+            PlayerDataManager.instance.SavePlayerData();
+            currentCash.text = $"Current $: {PlayerDataManager.instance.GetCurrentGold()}";
             UpgradeExplainerPanel.SetActive(false);
         }
         else
@@ -78,6 +87,5 @@ public class UpgradesButtonUI : MonoBehaviour
             UpgradeExplainerPanel.SetActive(false);
             UpgradeFailedPanel.SetActive(true);
         }
-
     }
 }

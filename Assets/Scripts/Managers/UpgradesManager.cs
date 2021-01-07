@@ -73,13 +73,6 @@ public class UpgradesManager : MonoBehaviour
         }
     }
 
-    public void UpgradeStat(PlayerUpgrade upgrade)
-    {
-        /*int index = currentUpgrades.IndexOf(upgrade);
-        currentUpgrades[index] = upgrade;*/
-        SaveStats();
-    }
-
     public PlayerUpgrade GetPlayerUpgrade(UpgradeNames name) 
     {
         return currentUpgrades.FirstOrDefault(x => x.upgradeName == name);

@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
         var levelGenerator = GetComponent<RandomLevelGenerator>();
         cubeJump.playerDied += PlayerDied;
         levelGenerator.SpawnAmount = PlayerDataManager.instance.GetCurrentLevel() + 5;
-        levelTextMesh.text = $"Level {levelGenerator.SpawnAmount}";
+        levelTextMesh.text = $"Level {levelGenerator.SpawnAmount - 5}";
         goldTextMesh.text = $"{PlayerDataManager.instance.GetCurrentGold()}$";
         levelGenerator.GenerateLevel();
     }

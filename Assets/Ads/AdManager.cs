@@ -77,6 +77,7 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
         {
             if (placementId == rewardedVideo)
             {
+                AudioManager.instance.PlayAudioOneShot("Coin Pickup");
                 PlayerDataManager.instance.IncreaseGold(80);
             }
         }

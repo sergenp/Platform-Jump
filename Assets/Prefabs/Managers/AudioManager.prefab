@@ -82,6 +82,16 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 892657dbada5ab64a9fa7961bb4e8573, type: 3}
     name: Powerup
     loop: 0
+  - source: {fileID: 0}
+    audioMixer: {fileID: -4242252221581209514, guid: 916fcfd65eab50d4688abef7587ceacb,
+      type: 2}
+    clips:
+    - {fileID: 8300000, guid: f3a0927b6a0f9d9489168989823b13e5, type: 3}
+    - {fileID: 8300000, guid: ea9fd3066b33f774f9aa378312d5b938, type: 3}
+    - {fileID: 8300000, guid: 5181aeceabc71bf4ea5270221f2b8970, type: 3}
+    - {fileID: 8300000, guid: 9a9b22804b4d42843a69a83409f71be8, type: 3}
+    name: ButtonSelect
+    loop: 0
 --- !u!82 &1615311413
 AudioSource:
   m_ObjectHideFlags: 0
