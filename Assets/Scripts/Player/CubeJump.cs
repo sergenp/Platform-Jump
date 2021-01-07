@@ -108,9 +108,9 @@ public class CubeJump : MonoBehaviour
             {
                 cubeRenderer.material.Lerp(cubeRenderer.material, defaultMaterial, .2f);
             }
-            else if (_rb.velocity.y <= -15f)
+            else if (_rb.velocity.y <= -18f)
             {
-                cubeRenderer.material.Lerp(cubeRenderer.material, ChargingJumpMat, .04f);
+                cubeRenderer.material.Lerp(cubeRenderer.material, ChargingJumpMat, .03f);
             }
         }
 
@@ -121,20 +121,25 @@ public class CubeJump : MonoBehaviour
 
         GraphicsCube.transform.localEulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z);
     
-        if (_rb.velocity.y < -30f)
+        if (_rb.velocity.y < -32f)
         {
             DestroyedCube.SetActive(true);
             foreach (var rb in DestroyedCube.GetComponentsInChildren<Rigidbody>())
             {
                 rb.AddExplosionForce(50f, transform.position, 20f, -rb.velocity.y);
             }
-            _rb.isKinematic = true;
-            Destroy(GraphicsCube);
-            Destroy(JumpTarget.gameObject);
-            Destroy(this);
+            KillCube();
             AudioManager.instance.PlayAudioOneShot("Mine");
             playerDied?.Invoke();
         }
+    }
+
+    public void KillCube()
+    {
+        _rb.isKinematic = true;
+        Destroy(GraphicsCube);
+        Destroy(JumpTarget);
+        Destroy(this);
     }
 
 
@@ -159,14 +164,6 @@ public class CubeJump : MonoBehaviour
         _rb.angularVelocity = new Vector3(0f, 0f, Mathf.Clamp(-jumpDir.x, -2f, 2f));
         jumpForce = Stats[UpgradeNames.MinJumpSpeed];
         _animator.speed = 1f;
-    }
-
-    public void ApplyUpgrades(List<UpgradesManager.PlayerUpgrades> upgrades)
-    {
-        foreach (var upgrade in upgrades)
-        {
-            Stats[upgrade.upgradeName] = upgrade.upgradeValue;
-        }
     }
 
     /// <summary>

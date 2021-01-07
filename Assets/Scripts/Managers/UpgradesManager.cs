@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class UpgradesManager : MonoBehaviour
 {
+   
     #region Singleton
     public static UpgradesManager instance;
     public void Awake()
@@ -17,36 +19,43 @@ public class UpgradesManager : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
+        LoadStats();
     }
-    #endregion
 
+    #endregion
     [Serializable]
-    public class PlayerUpgrades
+    public class PlayerUpgrade
     {
         public UpgradeNames upgradeName;
-        public int upgradeCost;
+        public int initialUpgradeCost;
         public int upgradedAmount;
         public int upgradeLimit;
-        public float perUpgradeCostIncrease;
-        public float upgradeValue;
+        // upgrade cost increase per upgradedAmount (upgradeCost=upgradeCost + perUpgradeCostIncrease*upgradedAmount)
+        public int perUpgradeCostIncrease;
+        // initial non-upgraded value 
+        public float initialUpgradeValue;
+        // explanation of what the upgrade does
+        [TextArea]
+        public string upgradeExplanation;
+        // how much value one upgrade applies
+        public float increasePerUpgrade;
     }
 
-    [SerializeField]
-    public List<PlayerUpgrades> defaultUpgrades;
 
     [SerializeField]
-    public List<PlayerUpgrades> currentUpgrades;
+    public List<PlayerUpgrade> defaultUpgrades;
+
+    [SerializeField]
+    public List<PlayerUpgrade> currentUpgrades = new List<PlayerUpgrade>();
 
 
     private Dictionary<UpgradeNames, float> Stats = new Dictionary<UpgradeNames, float>();
 
     public Dictionary<UpgradeNames, float> ConvertStatsToDictionary()
     {
-        LoadStats();
-
         foreach (var upgrade in currentUpgrades)
         {
-            Stats[upgrade.upgradeName] = upgrade.upgradeValue;
+            Stats[upgrade.upgradeName] = upgrade.initialUpgradeValue + (upgrade.upgradedAmount * upgrade.increasePerUpgrade);
         }
 
         return Stats;
@@ -54,23 +63,30 @@ public class UpgradesManager : MonoBehaviour
 
     public void LoadStats()
     {
-        currentUpgrades = SaveSystem<List<PlayerUpgrades>>.LoadData("upgrades");
+        currentUpgrades = SaveSystem<List<PlayerUpgrade>>.LoadData("upgrades");
 
         if (currentUpgrades == null)
         {
-            currentUpgrades = new List<PlayerUpgrades>();
+            currentUpgrades = new List<PlayerUpgrade>();
             currentUpgrades.AddRange(defaultUpgrades);
+            SaveStats();
         }
     }
 
-    public void UpgradeStat(UpgradeNames name, float value)
+    public void UpgradeStat(PlayerUpgrade upgrade)
     {
-        Stats[name] = value;
+        /*int index = currentUpgrades.IndexOf(upgrade);
+        currentUpgrades[index] = upgrade;*/
+        SaveStats();
+    }
+
+    public PlayerUpgrade GetPlayerUpgrade(UpgradeNames name) 
+    {
+        return currentUpgrades.FirstOrDefault(x => x.upgradeName == name);
     }
 
     public void SaveStats()
     {
-        SaveSystem<List<PlayerUpgrades>>.SaveData(currentUpgrades, "upgrades");
+        SaveSystem<List<PlayerUpgrade>>.SaveData(currentUpgrades, "upgrades");
     }
-
 }

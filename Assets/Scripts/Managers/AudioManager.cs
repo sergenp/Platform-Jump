@@ -6,6 +6,9 @@ using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
+    public AudioSource backgroundMusicSource;
+
+    float? backgroundMusicTime;
 
     [Serializable]
     public class Sound
@@ -18,15 +21,25 @@ public class AudioManager : MonoBehaviour
     }
 
     public Sound[] sounds;
-    
+
+    #region Singleton
     public static AudioManager instance;
     private void Awake()
     {
         
         if (instance == null)
+        {
             instance = this;
-        else
+            backgroundMusicTime = SaveSystem<float>.LoadData("musicTime");
+            if (backgroundMusicTime == null)
+            {
+                backgroundMusicTime = 0f;
+            }
+            backgroundMusicSource.time = (float) backgroundMusicTime;
+        }
+        else { 
             Destroy(gameObject);
+        }
 
         DontDestroyOnLoad(gameObject);
 
@@ -35,6 +48,7 @@ public class AudioManager : MonoBehaviour
             s.source = gameObject.AddComponent<AudioSource>();
         }
     }
+    #endregion
 
     public void PlayAudioOneShot(string name)
     {
@@ -48,5 +62,20 @@ public class AudioManager : MonoBehaviour
         sound.source.loop = sound.loop;
         sound.source.outputAudioMixerGroup = sound.audioMixer;
         sound.source.Play();
+    }
+
+    // save the current background time, this way 
+    // background music won't start from the beginning each time you open up the game
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            SaveSystem<float>.SaveData(backgroundMusicSource.time, "musicTime");
+        } 
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveSystem<float>.SaveData(backgroundMusicSource.time, "musicTime");
     }
 }

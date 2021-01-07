@@ -29,17 +29,17 @@ public static class SaveSystem<T>
                     T data = (T) formatter.Deserialize(stream);
                     return data;
                 }
-                // serialization failed (probably user tampered with the file?)
+                // deserialization failed (probably user tampered with the file?)
                 catch (SerializationException)
                 {
-                    return default(T);
+                    return default;
                 }
             }
         }
         else
         {
-            Debug.LogError("Save file not found in " + path);
-            return default(T);
+            Debug.LogWarning("Save file not found in " + path);
+            return default;
         }
     }
 }

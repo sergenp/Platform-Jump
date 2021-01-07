@@ -1,12 +1,28 @@
 ﻿using UnityEngine;
 using UnityEngine.Advertisements;
 
-public class InitializeAds : MonoBehaviour, IUnityAdsListener
+public class AdManager : MonoBehaviour, IUnityAdsListener
 {
+    #region Singleton
+    public static AdManager instance;
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+    #endregion
 
     string gameId = "3960425";
-    string rewardedVideo = "rewardedVideo";
-    string skippableVideo = "video";
+    readonly string rewardedVideo = "rewardedVideo";
+    readonly string skippableVideo = "video";
     bool testMode = true;
 
     // Initialize the Ads listener and service:
@@ -16,15 +32,30 @@ public class InitializeAds : MonoBehaviour, IUnityAdsListener
         Advertisement.Initialize(gameId, testMode);
     }
 
-    public void ShowAd(string name)
+    bool isAdReady(string name)
     {
-        if (Advertisement.IsReady(name))
+        return Advertisement.IsReady(name);
+    }
+
+    public bool isRewardedVideoReady()
+    {
+        return isAdReady(rewardedVideo);
+    }
+    public bool isSkippableVideoReady()
+    {
+        return isAdReady(skippableVideo);
+    }
+
+    public bool ShowAd(string name)
+    {
+        if (isAdReady(name))
         {
             Advertisement.Show(name);
+            return true;
         }
         else
         {
-            Debug.Log("Rewarded video is not ready at the moment! Please try again later!");
+            return false;
         }
     }
 
@@ -46,7 +77,7 @@ public class InitializeAds : MonoBehaviour, IUnityAdsListener
         {
             if (placementId == rewardedVideo)
             {
-                GameManager.instance.AddCoinToPlayerWithoutAnim(100);
+                PlayerDataManager.instance.IncreaseGold(80);
             }
         }
         else if (showResult == ShowResult.Skipped)
@@ -55,7 +86,7 @@ public class InitializeAds : MonoBehaviour, IUnityAdsListener
         }
         else if (showResult == ShowResult.Failed)
         {
-            Debug.LogWarning("The ad did not finish due to an error.");
+            
         }
     }
 

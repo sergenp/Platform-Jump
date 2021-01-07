@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
-    private PlayerData data;
+    private CubeJump cubeJump;
 
     private void Awake()
     {
@@ -43,29 +43,20 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
 
         Application.targetFrameRate = 90;
-        data = SaveSystem<PlayerData>.LoadData("player");
-
-        var levelGenerator = GetComponent<RandomLevelGenerator>();
-
-        if (data == null)
-        {
-            data = new PlayerData
-            {
-                goldAmount = 0,
-                currentLevel = 1,
-            };
-        }
-        player.GetComponent<CubeJump>().playerDied += PlayerDied;
-        levelGenerator.SpawnAmount = data.currentLevel + 5;
-        levelTextMesh.text = $"Level {data.currentLevel}";
-        goldTextMesh.text = $"{data.goldAmount}$";
-        levelGenerator.GenerateLevel();
     }
 
     private void Start()
     {
         if (mainCam == null)
             mainCam = Camera.main;
+
+        cubeJump = player.GetComponent<CubeJump>();
+        var levelGenerator = GetComponent<RandomLevelGenerator>();
+        cubeJump.playerDied += PlayerDied;
+        levelGenerator.SpawnAmount = PlayerDataManager.instance.GetCurrentLevel() + 5;
+        levelTextMesh.text = $"Level {levelGenerator.SpawnAmount}";
+        goldTextMesh.text = $"{PlayerDataManager.instance.GetCurrentGold()}$";
+        levelGenerator.GenerateLevel();
     }
 
     public Transform GetPlayerTransform()
@@ -91,28 +82,21 @@ public class GameManager : MonoBehaviour
 
     public void PlayerFinishedLevel()
     {
-        if (data != null)
-        {
-            data.currentLevel = Mathf.Min(data.currentLevel + 1, 120);
-        }
-        player.gameObject.SetActive(false);
-        SaveSystem<PlayerData>.SaveData(data, "player");
+        cubeJump.KillCube();
+        PlayerDataManager.instance.IncreaseCurrentLevel();
         levelFinishPanel.SetActive(true);
+        PlayerDataManager.instance.SavePlayerData();
     }
 
     public void PlayerDied()
     {
         youHaveDiedPanel.SetActive(true);
+        PlayerDataManager.instance.SavePlayerData();
     }
 
     public void LoadCurrentLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    public void AddCoinToPlayerWithoutAnim(int value)
-    {
-        data.goldAmount += value;
     }
 
     public void AddCoinToPlayer(int value)
@@ -127,8 +111,8 @@ public class GameManager : MonoBehaviour
 
     IEnumerator AddMultipleCoins(int valuePerCoin, int amount)
     {
-        data.goldAmount += valuePerCoin * amount;
-        goldTextMesh.text = $"{data.goldAmount}$";
+        PlayerDataManager.instance.IncreaseGold(valuePerCoin * amount);
+        goldTextMesh.text = $"{PlayerDataManager.instance.GetCurrentGold()}$";
         for (int i = 0; i < amount; i++)
         {
             CreateFloatingText($"+{valuePerCoin}", "Coin Pickup");

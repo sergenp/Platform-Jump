@@ -43,3 +43,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2e538c51d7afd04c9630c88cf270945, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultUpgrades:
+  - upgradeName: 0
+    initialUpgradeCost: 100
+    upgradedAmount: 0
+    upgradeLimit: 10
+    perUpgradeCostIncrease: 10
+    initialUpgradeValue: 20
+    upgradeExplanation: Non-charged jump speed of the Cube. Increasing this increases
+      non-charged jump speed of the Cube. This also increases the in-air jump speed
+    increasePerUpgrade: 5
+  - upgradeName: 1
+    initialUpgradeCost: 50
+    upgradedAmount: 1
+    upgradeLimit: 5
+    perUpgradeCostIncrease: 0
+    initialUpgradeValue: 50
+    upgradeExplanation: Fully charged jump speed of the Cube.
+    increasePerUpgrade: 8
+  - upgradeName: 2
+    initialUpgradeCost: 30
+    upgradedAmount: 0
+    upgradeLimit: 10
+    perUpgradeCostIncrease: 10
+    initialUpgradeValue: 1.1
+    upgradeExplanation: Makes you be able to charge your jumps faster.
+    increasePerUpgrade: 0.05
+  - upgradeName: 3
+    initialUpgradeCost: 200
+    upgradedAmount: 0
+    upgradeLimit: 10
+    perUpgradeCostIncrease: 10
+    initialUpgradeValue: 5
+    upgradeExplanation: This upgrade makes your cube be able to jump more times in
+      air. I suggest you take this upgrade above all else,
+    increasePerUpgrade: 1
+  - upgradeName: 4
+    initialUpgradeCost: 60
+    upgradedAmount: 0
+    upgradeLimit: 5
+    perUpgradeCostIncrease: 0
+    initialUpgradeValue: 1.3
+    upgradeExplanation: This upgrade makes the arrow above cube rotate faster. Be
+      careful when upgrading this, faster arrow speed makes you lose precision, but
+      enables you to dodge faster.
+    increasePerUpgrade: 0.2
+  currentUpgrades: []
