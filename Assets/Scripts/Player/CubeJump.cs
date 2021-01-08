@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -37,11 +38,17 @@ public class CubeJump : MonoBehaviour
 
     [Header("Particle Systems")]
     public ParticleSystem dustParticle;
+    public GameObject smokeParticle;
+
+    [Header("Colors for Floating Texts")]
+    public Color jumpCountTextColor;
+    public Color fullyChargedTextColor;
 
 
     [Header("Buff Settings")]
     public int infiniteJumpBuffSeconds = 5;
     public int minimumJumpSpeedBuffSeconds = 5;
+    public int jumpChargeBuffSeconds = 5;
 
     public delegate void JumpDelegate();
     public JumpDelegate jumpCharging;
@@ -70,6 +77,7 @@ public class CubeJump : MonoBehaviour
         jumpCount = (int) Stats[UpgradeNames.MaxInAirJumpCount];
         jumpForce = Stats[UpgradeNames.MinJumpSpeed];
         JumpTarget.GetComponent<RotateAroundPlayer>().rotateSpeed = Stats[UpgradeNames.ArrowRotationSpeed];
+        StartCoroutine(NotifyFullyCharged());
     }
 
     void Update()
@@ -78,12 +86,11 @@ public class CubeJump : MonoBehaviour
         _animator.SetBool("IsGrounded", isGrounded);
 
         if (Input.GetMouseButton(0) && isGrounded)
-        {
-            jumpForce += Time.deltaTime * 10 * Stats[UpgradeNames.JumpForceGainMultiplier];
-            jumpForce = Mathf.Clamp(jumpForce, Stats[UpgradeNames.MinJumpSpeed], Stats[UpgradeNames.MaxJumpSpeed]);
+        {        
+            jumpForce = Mathf.Lerp(jumpForce, Stats[UpgradeNames.MaxJumpSpeed], Stats[UpgradeNames.JumpForceGainMultiplier] / 20);
             _animator.SetBool("IsCharging", true);
             _animator.speed = 1f + (jumpForce / 50f);
-            cubeRenderer.material.Lerp(cubeRenderer.material, ChargingJumpMat, _animator.speed/40f);
+            cubeRenderer.material.Lerp(cubeRenderer.material, ChargingJumpMat, Stats[UpgradeNames.JumpForceGainMultiplier] / 20);
             jumpCharging?.Invoke();
         }
 
@@ -93,6 +100,12 @@ public class CubeJump : MonoBehaviour
             _animator.SetBool("IsCharging", false);
             dustParticle.Play();
             AudioManager.instance.PlayAudioOneShot("Player Jump");
+            jumpCount--;
+            GameManager.instance.CreateFloatingText($"{jumpCount}", jumpCountTextColor);
+            if (jumpCount == 1)
+            {
+                GameManager.instance.CreateFloatingText("Last Jump", jumpCountTextColor);
+            }
             jumped?.Invoke();
         }
 
@@ -126,16 +139,46 @@ public class CubeJump : MonoBehaviour
             DestroyedCube.SetActive(true);
             foreach (var rb in DestroyedCube.GetComponentsInChildren<Rigidbody>())
             {
-                rb.AddExplosionForce(50f, transform.position, 20f, -rb.velocity.y);
+                rb.AddExplosionForce(20f, transform.position, 20f, 0f, ForceMode.Impulse);
             }
             AudioManager.instance.PlayAudioOneShot("Mine");
             playerDied?.Invoke();
             KillCube();
         }
     }
+    void FixedUpdate()
+    {
+        if (jumpTriggered)
+        {
+            Jump();
+            jumpTriggered = false;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.gameObject.CompareTag("Platform"))
+        {
+            Instantiate(smokeParticle, collision.GetContact(0).point, Quaternion.LookRotation(collision.GetContact(0).normal));
+        }
+    }
+
+    private IEnumerator NotifyFullyCharged()
+    {
+        while (true)
+        {
+            if (Mathf.Abs(jumpForce-Stats[UpgradeNames.MaxJumpSpeed]) <= 0.1f)
+            {
+                GameManager.instance.CreateFloatingText("Fully Charged", fullyChargedTextColor);
+                yield return new WaitForSeconds(5f);
+            }
+            yield return null;
+        }
+    }
 
     public void KillCube()
     {
+        Destroy(GetComponent<BoxCollider>());
         _rb.isKinematic = true;
         Destroy(GraphicsCube);
         Destroy(JumpTarget);
@@ -147,15 +190,6 @@ public class CubeJump : MonoBehaviour
         jumpCount = (int) Stats[UpgradeNames.MaxInAirJumpCount];
     }
 
-    void FixedUpdate()
-    {
-        if (jumpTriggered)
-        {
-            Jump();
-            jumpTriggered = false;
-            jumpCount--;
-        }
-    }
     void Jump()
     {
         Vector3 jumpDir = (JumpTarget.transform.position - transform.position).normalized * jumpForce;
@@ -177,6 +211,20 @@ public class CubeJump : MonoBehaviour
     public void MinJumpSpeedBuff()
     {
         StartCoroutine(MinJumpSpeedBuffCoroutine());
+    }    
+    
+    public void JumpChargeBuff()
+    {
+        StartCoroutine(JumpChargeBuffCoroutine());
+    }
+
+    private IEnumerator JumpChargeBuffCoroutine()
+    {
+        float prevChargeSpeed = Stats[UpgradeNames.JumpForceGainMultiplier];
+        Stats[UpgradeNames.JumpForceGainMultiplier] = 20;
+        yield return new WaitForSeconds(jumpChargeBuffSeconds);
+        Stats[UpgradeNames.JumpForceGainMultiplier] = prevChargeSpeed;
+        GameManager.instance.CreateFloatingText("Instant Charge End", fullyChargedTextColor);
     }
 
     IEnumerator InfiniteJumpsBuffCoroutine()
@@ -188,6 +236,7 @@ public class CubeJump : MonoBehaviour
         yield return new WaitForSeconds(infiniteJumpBuffSeconds);
         Stats[UpgradeNames.MaxInAirJumpCount] = prevMaxJumpCount;
         jumpCount = prevJumpCount;
+        GameManager.instance.CreateFloatingText("Infinite Jump End", fullyChargedTextColor);
     }
 
     IEnumerator MinJumpSpeedBuffCoroutine()
@@ -199,5 +248,7 @@ public class CubeJump : MonoBehaviour
         yield return new WaitForSeconds(minimumJumpSpeedBuffSeconds);
         Stats[UpgradeNames.MinJumpSpeed] = prevMinSpeed;
         Stats[UpgradeNames.MaxJumpSpeed] = prevMaxSpeed;
+        jumpForce = prevMinSpeed;
+        GameManager.instance.CreateFloatingText("Jump Buff End", fullyChargedTextColor);
     }
 }

@@ -93,7 +93,7 @@ TextMesh:
   m_Font: {fileID: 12800000, guid: bc92f26d3dc6d0344b3f2009ab1b3436, type: 3}
   m_Color:
     serializedVersion: 2
-    rgba: 4278242303
+    rgba: 4288167239
 --- !u!95 &1598085438
 Animator:
   serializedVersion: 3

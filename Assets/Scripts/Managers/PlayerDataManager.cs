@@ -42,7 +42,7 @@ public class PlayerDataManager : MonoBehaviour
 
     public void IncreaseCurrentLevel()
     {
-        data.currentLevel = Math.Min(data.currentLevel + 1, 50);
+        data.currentLevel += 1;
     }
 
     public void IncreaseGold(int amount)

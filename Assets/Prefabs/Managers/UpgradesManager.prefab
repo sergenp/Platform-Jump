@@ -45,47 +45,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultUpgrades:
   - upgradeName: 0
-    initialUpgradeCost: 120
+    initialUpgradeCost: 150
     upgradedAmount: 0
-    upgradeLimit: 6
-    perUpgradeCostIncrease: 80
+    upgradeLimit: 4
+    perUpgradeCostIncrease: 100
     initialUpgradeValue: 20
     upgradeExplanation: Non-charged jump speed of the Cube. Increasing this increases
       non-charged jump speed of the Cube. This also increases the in-air jump speed
     increasePerUpgrade: 6
   - upgradeName: 1
-    initialUpgradeCost: 50
+    initialUpgradeCost: 150
     upgradedAmount: 0
-    upgradeLimit: 7
-    perUpgradeCostIncrease: 50
+    upgradeLimit: 5
+    perUpgradeCostIncrease: 100
     initialUpgradeValue: 50
     upgradeExplanation: Fully charged jump speed of the Cube.
     increasePerUpgrade: 7
   - upgradeName: 2
     initialUpgradeCost: 80
     upgradedAmount: 0
-    upgradeLimit: 10
+    upgradeLimit: 4
     perUpgradeCostIncrease: 5
-    initialUpgradeValue: 1.1
+    initialUpgradeValue: 1
     upgradeExplanation: Makes you be able to charge your jumps faster.
-    increasePerUpgrade: 0.05
+    increasePerUpgrade: 0.3
   - upgradeName: 3
-    initialUpgradeCost: 250
+    initialUpgradeCost: 300
     upgradedAmount: 0
-    upgradeLimit: 5
-    perUpgradeCostIncrease: 80
-    initialUpgradeValue: 5
+    upgradeLimit: 4
+    perUpgradeCostIncrease: 100
+    initialUpgradeValue: 4
     upgradeExplanation: This upgrade makes your cube be able to jump more times in
       air. I suggest you take this upgrade above all else,
     increasePerUpgrade: 1
   - upgradeName: 4
-    initialUpgradeCost: 80
+    initialUpgradeCost: 100
     upgradedAmount: 0
     upgradeLimit: 5
-    perUpgradeCostIncrease: 30
-    initialUpgradeValue: 1.3
+    perUpgradeCostIncrease: 50
+    initialUpgradeValue: 1.2
     upgradeExplanation: This upgrade makes the arrow above cube rotate faster. Be
       careful when upgrading this, faster arrow speed makes you lose precision, but
       enables you to dodge faster.
-    increasePerUpgrade: 0.2
+    increasePerUpgrade: 0.1
   currentUpgrades: []

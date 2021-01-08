@@ -79,7 +79,6 @@ public class UpgradesButtonUI : MonoBehaviour
             }
             UpgradesManager.instance.SaveStats();
             PlayerDataManager.instance.SavePlayerData();
-            currentCash.text = $"Current $: {PlayerDataManager.instance.GetCurrentGold()}";
             UpgradeExplainerPanel.SetActive(false);
         }
         else

@@ -53,8 +53,10 @@ public class GameManager : MonoBehaviour
         cubeJump = player.GetComponent<CubeJump>();
         var levelGenerator = GetComponent<RandomLevelGenerator>();
         cubeJump.playerDied += PlayerDied;
-        levelGenerator.SpawnAmount = PlayerDataManager.instance.GetCurrentLevel() + 5;
-        levelTextMesh.text = $"Level {levelGenerator.SpawnAmount - 5}";
+        int currentLevel = PlayerDataManager.instance.GetCurrentLevel();
+        levelGenerator.SpawnAmount = Mathf.Min(currentLevel + 5, 30); // maximum 30 object per level
+        levelGenerator.YDistanceBetweenObjects += Mathf.Min(currentLevel, 12); // it gets harder as you progress more
+        levelTextMesh.text = $"Level {currentLevel}";
         goldTextMesh.text = $"{PlayerDataManager.instance.GetCurrentGold()}$";
         levelGenerator.GenerateLevel();
     }
@@ -83,6 +85,7 @@ public class GameManager : MonoBehaviour
     public void PlayerFinishedLevel()
     {
         cubeJump.KillCube();
+        AdManager.instance.ShowInterstellarAd();
         PlayerDataManager.instance.IncreaseCurrentLevel();
         levelFinishPanel.SetActive(true);
         PlayerDataManager.instance.SavePlayerData();
@@ -90,6 +93,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDied()
     {
+        AdManager.instance.ShowInterstellarAd();
         youHaveDiedPanel.SetActive(true);
         PlayerDataManager.instance.SavePlayerData();
     }
@@ -115,7 +119,7 @@ public class GameManager : MonoBehaviour
         goldTextMesh.text = $"{PlayerDataManager.instance.GetCurrentGold()}$";
         for (int i = 0; i < amount; i++)
         {
-            CreateFloatingText($"+{valuePerCoin}", "Coin Pickup");
+            CreateFloatingText($"+{valuePerCoin}", "Coin Pickup", Color.yellow);
             yield return new WaitForSeconds(0.3f);
         }
     }
@@ -126,10 +130,24 @@ public class GameManager : MonoBehaviour
         Instantiate(floatingTextPrefab, player.transform.position, Quaternion.identity, player.transform);
         AudioManager.instance.PlayAudioOneShot(soundClipToPlay);
     }
+    public void CreateFloatingText(string text, string soundClipToPlay, Color color)
+    {
+        floatingTextPrefab.GetComponent<TextMesh>().text = text;
+        floatingTextPrefab.GetComponent<TextMesh>().color = color;
+        Instantiate(floatingTextPrefab, player.transform.position, Quaternion.identity, player.transform);
+        AudioManager.instance.PlayAudioOneShot(soundClipToPlay);
+    }
 
     public void CreateFloatingText(string text)
     {
         floatingTextPrefab.GetComponent<TextMesh>().text = text;
+        floatingTextPrefab.GetComponent<TextMesh>().color = Color.yellow;
+        Instantiate(floatingTextPrefab, player.transform.position, Quaternion.identity, player.transform);
+    }
+    public void CreateFloatingText(string text, Color color)
+    {
+        floatingTextPrefab.GetComponent<TextMesh>().text = text;
+        floatingTextPrefab.GetComponent<TextMesh>().color = color;
         Instantiate(floatingTextPrefab, player.transform.position, Quaternion.identity, player.transform);
     }
 }

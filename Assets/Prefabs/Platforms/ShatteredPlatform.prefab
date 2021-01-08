@@ -2007,9 +2007,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4443697022010473808}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: ShatteredPlatform
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

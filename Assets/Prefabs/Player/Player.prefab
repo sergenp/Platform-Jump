@@ -4375,7 +4375,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 56
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &7246891063163834155
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4404,10 +4404,6 @@ MonoBehaviour:
   JumpTarget: {fileID: 0}
   GraphicsCube: {fileID: 7246891064340388316}
   DestroyedCube: {fileID: 4865722206591415774}
-  minJumpSpeed: 20
-  maxJumpSpeed: 45
-  jumpForceGainMultiplier: 1.2
-  maxInAirJumpCount: 5
   feet: {fileID: 7246891063698111958}
   GroundMask:
     serializedVersion: 2
@@ -4415,8 +4411,13 @@ MonoBehaviour:
   defaultMaterial: {fileID: 2100000, guid: 4a9238d6f9de6bf4f88697aaccea2d6b, type: 2}
   ChargingJumpMat: {fileID: 2100000, guid: 0148795e0de8bfc4480b44cb14f51cc8, type: 2}
   dustParticle: {fileID: 1030910802605984288}
-  infiniteJumpBuffSeconds: 5
-  minimumJumpSpeedBuffSeconds: 5
+  smokeParticle: {fileID: 1248365930086534, guid: 8a7eff82d5211844591f2c46f6a7a82e,
+    type: 3}
+  jumpCountTextColor: {r: 0.27927995, g: 0.23829654, b: 0.5943396, a: 1}
+  fullyChargedTextColor: {r: 0.8392157, g: 0.1882353, b: 0.19215687, a: 1}
+  infiniteJumpBuffSeconds: 7
+  minimumJumpSpeedBuffSeconds: 4
+  jumpChargeBuffSeconds: 15
 --- !u!1 &7246891064340388316
 GameObject:
   m_ObjectHideFlags: 0

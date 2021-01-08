@@ -25,6 +25,10 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
     readonly string skippableVideo = "video";
     bool testMode = true;
 
+    // show ad after x times of calling the skippable vid function
+    int showAdAfter = 3;
+    int showAdCounter = 0;
+
     // Initialize the Ads listener and service:
     void Start()
     {
@@ -66,7 +70,12 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
 
     public void ShowInterstellarAd()
     {
-        ShowAd(skippableVideo);
+        showAdCounter++;
+        if (showAdCounter == showAdAfter)
+        {
+            ShowAd(skippableVideo);
+            showAdCounter = 0;
+        }
     }
 
     // Implement IUnityAdsListener interface methods:
