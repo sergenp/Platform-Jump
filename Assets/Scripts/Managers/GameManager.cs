@@ -3,14 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
-[System.Serializable]
-public class PlayerData
-{
-    public int currentLevel;
-    public int goldAmount;
-}
-
 public class GameManager : MonoBehaviour
 {
 
@@ -86,6 +78,7 @@ public class GameManager : MonoBehaviour
     {
         cubeJump.KillCube();
         AdManager.instance.ShowInterstellarAd();
+        AddCoinToPlayer(PlayerDataManager.instance.GetCurrentLevel() * 3 + 50);
         PlayerDataManager.instance.IncreaseCurrentLevel();
         levelFinishPanel.SetActive(true);
         PlayerDataManager.instance.SavePlayerData();

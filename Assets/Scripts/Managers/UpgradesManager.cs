@@ -35,7 +35,7 @@ public class UpgradesManager : MonoBehaviour
         // initial non-upgraded value 
         public float initialUpgradeValue;
         // explanation of what the upgrade does
-        [TextArea]
+        [TextArea(3, 10)]
         public string upgradeExplanation;
         // how much value one upgrade applies
         public float increasePerUpgrade;

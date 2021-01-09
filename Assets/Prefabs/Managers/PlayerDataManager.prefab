@@ -43,3 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22b27a31d649894449e26a2a906e9b07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultCubeColor: {r: 0.33333334, g: 0.9372549, b: 0.76862746, a: 1}

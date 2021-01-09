@@ -571,7 +571,6 @@ MonoBehaviour:
   upgradeName: 2
   upgradeDisplayName: Jump Force Gain
   upgradedLevelText: {fileID: 285992871}
-  currentCash: {fileID: 885796607}
   UpgradeExplainerPanel: {fileID: 4396239800029500800}
   Header: {fileID: 4396239800029500799}
   ExplainUpgrade: {fileID: 4396239800029500798}
@@ -598,7 +597,6 @@ MonoBehaviour:
   upgradeName: 1
   upgradeDisplayName: Maximum Jump Speed
   upgradedLevelText: {fileID: 684803943}
-  currentCash: {fileID: 885796607}
   UpgradeExplainerPanel: {fileID: 4396239800029500800}
   Header: {fileID: 4396239800029500799}
   ExplainUpgrade: {fileID: 4396239800029500798}
@@ -736,7 +734,6 @@ MonoBehaviour:
   upgradeName: 0
   upgradeDisplayName: Minimum Jump Speed
   upgradedLevelText: {fileID: 1902262515}
-  currentCash: {fileID: 885796607}
   UpgradeExplainerPanel: {fileID: 4396239800029500800}
   Header: {fileID: 4396239800029500799}
   ExplainUpgrade: {fileID: 4396239800029500798}
@@ -1509,6 +1506,7 @@ GameObject:
   - component: {fileID: 885796606}
   - component: {fileID: 885796608}
   - component: {fileID: 885796607}
+  - component: {fileID: 885796609}
   m_Layer: 5
   m_Name: 'Current $ :'
   m_TagString: Untagged
@@ -1632,6 +1630,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 885796605}
   m_CullTransparentMesh: 0
+--- !u!114 &885796609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 885796605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e4ae894ea3c1a44bc465e5d5a4aa0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &939721836
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2069,7 +2079,6 @@ MonoBehaviour:
   upgradeName: 4
   upgradeDisplayName: Arrow Rotate Speed
   upgradedLevelText: {fileID: 2084872741}
-  currentCash: {fileID: 885796607}
   UpgradeExplainerPanel: {fileID: 4396239800029500800}
   Header: {fileID: 4396239800029500799}
   ExplainUpgrade: {fileID: 4396239800029500798}
@@ -3130,7 +3139,6 @@ MonoBehaviour:
   upgradeName: 3
   upgradeDisplayName: Max In Air Jump Count
   upgradedLevelText: {fileID: 442863456}
-  currentCash: {fileID: 885796607}
   UpgradeExplainerPanel: {fileID: 4396239800029500800}
   Header: {fileID: 4396239800029500799}
   ExplainUpgrade: {fileID: 4396239800029500798}

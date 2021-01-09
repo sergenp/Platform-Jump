@@ -32,8 +32,8 @@ public class CubeJump : MonoBehaviour
     public LayerMask GroundMask;
 
     [Header("Graphics Materials")]
-    public Material defaultMaterial;
     public Material ChargingJumpMat;
+    private Material defaultMaterial;
 
 
     [Header("Particle Systems")]
@@ -43,6 +43,7 @@ public class CubeJump : MonoBehaviour
     [Header("Colors for Floating Texts")]
     public Color jumpCountTextColor;
     public Color fullyChargedTextColor;
+    public Color buffEndTextColor;
 
 
     [Header("Buff Settings")]
@@ -72,6 +73,8 @@ public class CubeJump : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _animator = GraphicsCube.GetComponent<Animator>();
         cubeRenderer = GraphicsCube.GetComponent<Renderer>();
+        cubeRenderer.material.color = PlayerDataManager.instance.GetCubeColor();
+        defaultMaterial = new Material(cubeRenderer.material);
 
         Stats = UpgradesManager.instance.ConvertStatsToDictionary();
         jumpCount = (int) Stats[UpgradeNames.MaxInAirJumpCount];
@@ -224,7 +227,7 @@ public class CubeJump : MonoBehaviour
         Stats[UpgradeNames.JumpForceGainMultiplier] = 20;
         yield return new WaitForSeconds(jumpChargeBuffSeconds);
         Stats[UpgradeNames.JumpForceGainMultiplier] = prevChargeSpeed;
-        GameManager.instance.CreateFloatingText("Instant Charge End", fullyChargedTextColor);
+        GameManager.instance.CreateFloatingText("Instant Charge End", buffEndTextColor);
     }
 
     IEnumerator InfiniteJumpsBuffCoroutine()
@@ -236,7 +239,7 @@ public class CubeJump : MonoBehaviour
         yield return new WaitForSeconds(infiniteJumpBuffSeconds);
         Stats[UpgradeNames.MaxInAirJumpCount] = prevMaxJumpCount;
         jumpCount = prevJumpCount;
-        GameManager.instance.CreateFloatingText("Infinite Jump End", fullyChargedTextColor);
+        GameManager.instance.CreateFloatingText("Infinite Jump End", buffEndTextColor);
     }
 
     IEnumerator MinJumpSpeedBuffCoroutine()
@@ -249,6 +252,6 @@ public class CubeJump : MonoBehaviour
         Stats[UpgradeNames.MinJumpSpeed] = prevMinSpeed;
         Stats[UpgradeNames.MaxJumpSpeed] = prevMaxSpeed;
         jumpForce = prevMinSpeed;
-        GameManager.instance.CreateFloatingText("Jump Buff End", fullyChargedTextColor);
+        GameManager.instance.CreateFloatingText("Jump Buff End", buffEndTextColor);
     }
 }

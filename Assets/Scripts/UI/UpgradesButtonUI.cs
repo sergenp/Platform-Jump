@@ -10,7 +10,6 @@ public class UpgradesButtonUI : MonoBehaviour
     public UpgradeNames upgradeName;
     public string upgradeDisplayName;
     public TextMeshProUGUI upgradedLevelText;
-    public TextMeshProUGUI currentCash;
     [Header("Panel for explaining the upgrade")]
     public GameObject UpgradeExplainerPanel;
     public TextMeshProUGUI Header;
@@ -37,7 +36,6 @@ public class UpgradesButtonUI : MonoBehaviour
             upgradedLevelText.text = "Maxed";
             thisButton.gameObject.SetActive(false);
         }
-        currentCash.text = $"Current $: {PlayerDataManager.instance.GetCurrentGold()}";
     }
 
 
@@ -54,12 +52,6 @@ public class UpgradesButtonUI : MonoBehaviour
         confirmButton.onClick.AddListener(() => UpgradeConfirmed());
         UpgradeExplainerPanel.SetActive(true);
     }
-
-    private void Update()
-    {
-        currentCash.text = $"Current $: {PlayerDataManager.instance.GetCurrentGold()}";
-    }
-
 
     public void UpgradeConfirmed()
     {

@@ -50,8 +50,8 @@ MonoBehaviour:
     upgradeLimit: 4
     perUpgradeCostIncrease: 100
     initialUpgradeValue: 20
-    upgradeExplanation: Non-charged jump speed of the Cube. Increasing this increases
-      non-charged jump speed of the Cube. This also increases the in-air jump speed
+    upgradeExplanation: "Increasing this increases non-charged jump speed of the
+      Cube. \nThis also increases the in-air jump speed"
     increasePerUpgrade: 6
   - upgradeName: 1
     initialUpgradeCost: 150
@@ -59,7 +59,8 @@ MonoBehaviour:
     upgradeLimit: 5
     perUpgradeCostIncrease: 100
     initialUpgradeValue: 50
-    upgradeExplanation: Fully charged jump speed of the Cube.
+    upgradeExplanation: This upgrade incraeses the fully charged jump speed of the
+      Cube.
     increasePerUpgrade: 7
   - upgradeName: 2
     initialUpgradeCost: 80
@@ -67,7 +68,7 @@ MonoBehaviour:
     upgradeLimit: 4
     perUpgradeCostIncrease: 5
     initialUpgradeValue: 1
-    upgradeExplanation: Makes you be able to charge your jumps faster.
+    upgradeExplanation: This upgrade makes you be able to charge your jumps faster.
     increasePerUpgrade: 0.3
   - upgradeName: 3
     initialUpgradeCost: 300
@@ -75,8 +76,8 @@ MonoBehaviour:
     upgradeLimit: 4
     perUpgradeCostIncrease: 100
     initialUpgradeValue: 4
-    upgradeExplanation: This upgrade makes your cube be able to jump more times in
-      air. I suggest you take this upgrade above all else,
+    upgradeExplanation: "This upgrade makes your cube be able to jump more times
+      in air. \n(Recommended)"
     increasePerUpgrade: 1
   - upgradeName: 4
     initialUpgradeCost: 100
@@ -84,8 +85,8 @@ MonoBehaviour:
     upgradeLimit: 5
     perUpgradeCostIncrease: 50
     initialUpgradeValue: 1.2
-    upgradeExplanation: This upgrade makes the arrow above cube rotate faster. Be
-      careful when upgrading this, faster arrow speed makes you lose precision, but
-      enables you to dodge faster.
+    upgradeExplanation: "This upgrade makes the arrow above cube rotate faster. \nBe
+      careful when upgrading this, this makes you lose precision, but enables you
+      to dodge faster."
     increasePerUpgrade: 0.1
   currentUpgrades: []
