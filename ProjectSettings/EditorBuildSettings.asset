@@ -12,9 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Upgrades Menu.unity
     guid: 35eeda4842216424ebe9f418f07484d7
   - enabled: 1
-    path: Assets/Scenes/Jump.unity
-    guid: b763129bf1d0727498f1a4f2b6fac501
-  - enabled: 1
     path: Assets/Scenes/Customize Menu.unity
     guid: 37d70ec57bf6e6c4a904514adeb3b19b
+  - enabled: 1
+    path: Assets/Scenes/Jump.unity
+    guid: b763129bf1d0727498f1a4f2b6fac501
   m_configObjects: {}

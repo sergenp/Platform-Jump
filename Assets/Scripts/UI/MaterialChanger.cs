@@ -9,13 +9,12 @@ public class MaterialChanger : MonoBehaviour
     public new Renderer renderer;
     public ColorPicker picker;
 
-    [Header("Failed Panel")]
+    [Header("Panels")]
     public GameObject customizeFailedPanel;
     public GameObject successfullyAppliedPanel;
 
     private Color Color;
     
-    // Use this for initialization
     void Start()
     {
         picker.CurrentColor = PlayerDataManager.instance.GetCubeColor();

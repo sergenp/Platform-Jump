@@ -104,11 +104,10 @@ public class CubeJump : MonoBehaviour
             dustParticle.Play();
             AudioManager.instance.PlayAudioOneShot("Player Jump");
             jumpCount--;
-            GameManager.instance.CreateFloatingText($"{jumpCount}", jumpCountTextColor);
             if (jumpCount == 1)
-            {
                 GameManager.instance.CreateFloatingText("Last Jump", jumpCountTextColor);
-            }
+            else
+                GameManager.instance.CreateFloatingText($"{jumpCount}", jumpCountTextColor);
             jumped?.Invoke();
         }
 
@@ -130,7 +129,7 @@ public class CubeJump : MonoBehaviour
             }
         }
 
-        if (jumpCount >= 1)
+        if (jumpCount > 0)
             JumpTarget.SetActive(true);
         else
             JumpTarget.SetActive(false);
@@ -182,7 +181,7 @@ public class CubeJump : MonoBehaviour
     public void KillCube()
     {
         Destroy(GetComponent<BoxCollider>());
-        _rb.isKinematic = true;
+        _rb.constraints = RigidbodyConstraints.FreezeAll;
         Destroy(GraphicsCube);
         Destroy(JumpTarget);
         Destroy(this);
@@ -238,7 +237,7 @@ public class CubeJump : MonoBehaviour
         ResetJumpCount();
         yield return new WaitForSeconds(infiniteJumpBuffSeconds);
         Stats[UpgradeNames.MaxInAirJumpCount] = prevMaxJumpCount;
-        jumpCount = prevJumpCount;
+        jumpCount = prevMaxJumpCount;
         GameManager.instance.CreateFloatingText("Infinite Jump End", buffEndTextColor);
     }
 

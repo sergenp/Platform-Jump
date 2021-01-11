@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
     [Header("Level Finish UI")]
     public GameObject levelFinishPanel;
     public GameObject youHaveDiedPanel;
+
 
     public static GameManager instance;
 
@@ -53,6 +55,7 @@ public class GameManager : MonoBehaviour
         levelGenerator.GenerateLevel();
     }
 
+
     public Transform GetPlayerTransform()
     {
         return player.transform;
@@ -83,7 +86,7 @@ public class GameManager : MonoBehaviour
         levelFinishPanel.SetActive(true);
         PlayerDataManager.instance.SavePlayerData();
     }
-
+   
     public void PlayerDied()
     {
         AdManager.instance.ShowInterstellarAd();
