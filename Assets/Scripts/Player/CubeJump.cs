@@ -23,7 +23,7 @@ public class CubeJump : MonoBehaviour
     public GameObject GraphicsCube;
 
     public GameObject DestroyedCube;
-
+ 
     public Dictionary<UpgradeNames, float> Stats;
 
     [Header("Ground Detection")]
@@ -135,6 +135,7 @@ public class CubeJump : MonoBehaviour
             JumpTarget.SetActive(false);
 
         GraphicsCube.transform.localEulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z);
+        transform.eulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z);
     
         if (_rb.velocity.y < -32f)
         {

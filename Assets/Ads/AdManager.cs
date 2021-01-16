@@ -23,8 +23,7 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
     string gameId = "3960425";
     readonly string rewardedVideo = "rewardedVideo";
     readonly string skippableVideo = "video";
-    bool testMode = false;
-
+    bool testMode;
     // show ad after x times of calling the skippable vid function
     int showAdAfter = 4;
     int showAdCounter = 0;
@@ -32,6 +31,12 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
     // Initialize the Ads listener and service:
     void Start()
     {
+        if (Debug.isDebugBuild)
+            testMode = true;
+        else
+            testMode = false;
+        
+        
         Advertisement.AddListener(this);
         Advertisement.Initialize(gameId, testMode);
     }

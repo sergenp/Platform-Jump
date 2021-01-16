@@ -8,12 +8,19 @@ public class Mine : MonoBehaviour
     public ParticleSystem explosionParticles;
 
 
+    private GameObject player;
+
+    private void Start()
+    {
+        player = GameManager.instance.GetPlayerTransform().gameObject;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, other.transform.position, explosionForce, explosionForce, ForceMode.Impulse);
-            other.gameObject.GetComponent<CubeJump>().ResetJumpCount();
+            player.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, other.transform.position, explosionForce, explosionForce, ForceMode.Impulse);
+            player.GetComponent<CubeJump>().ResetJumpCount();
             StartCoroutine(BlowUp());
         }
     }

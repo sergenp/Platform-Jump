@@ -11,22 +11,23 @@ public class ShatterablePlatform : MonoBehaviour
 
     public GameObject Shattered;
 
-    public GameObject floatingTextPrefab;
+    private GameObject player;
 
     private void Start()
     {
-        floatingTextPrefab.GetComponent<TextMesh>().text = $"+{coinValue}";
+        player = GameManager.instance.GetPlayerTransform().gameObject;
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
             GameObject shatteredObj = Instantiate(Shattered, transform.position, transform.rotation);
-            Vector3 vel = other.gameObject.GetComponent<Rigidbody>().velocity;
+            Vector3 vel = player.GetComponent<Rigidbody>().velocity;
             foreach(var rb in shatteredObj.GetComponentsInChildren<Rigidbody>())
             {
-                rb.AddExplosionForce(vel.y * 1.25f, other.gameObject.transform.position, 10f, vel.y * 0.7f * Mathf.Sign(vel.y), ForceMode.Impulse);
+                rb.AddExplosionForce(vel.y * 1.25f, player.transform.position, 10f, vel.y * 0.7f * Mathf.Sign(vel.y), ForceMode.Impulse);
             }
             Destroy(shatteredObj, 10f);
             GameManager.instance.AddCoinToPlayer(coinValue, coinAmount);
