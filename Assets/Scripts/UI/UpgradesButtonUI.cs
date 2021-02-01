@@ -20,12 +20,11 @@ public class UpgradesButtonUI : MonoBehaviour
 
     private Button thisButton;
     private UpgradesManager.PlayerUpgrade data;
-    
+
 
     private void Start()
     {
         thisButton = GetComponent<Button>();
-        thisButton.onClick.AddListener(() => OpenUpgradeExplainer());
         data = UpgradesManager.instance.GetPlayerUpgrade(upgradeName);
         if (data.upgradedAmount < data.upgradeLimit)
         {
@@ -36,6 +35,7 @@ public class UpgradesButtonUI : MonoBehaviour
             upgradedLevelText.text = "Maxed";
             thisButton.gameObject.SetActive(false);
         }
+        thisButton.onClick.AddListener(() => OpenUpgradeExplainer());
     }
 
 
@@ -56,7 +56,7 @@ public class UpgradesButtonUI : MonoBehaviour
     public void UpgradeConfirmed()
     {
         bool successfull = PlayerDataManager.instance.DecreaseGold(data.initialUpgradeCost + (data.perUpgradeCostIncrease * data.upgradedAmount));
-        
+
         if (successfull)
         {
             data.upgradedAmount += 1;
